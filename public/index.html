@@ -2,22 +2,37 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Multi WhatsApp</title>
+    <title>QR WhatsApp</title>
     <script src="/socket.io/socket.io.js"></script>
     <style>
-        body { text-align: center; font-family: sans-serif; padding: 50px; }
-        img { margin-top: 20px; width: 200px; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            background: #fff;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        #qrcode img {
+            width: 180px;
+            height: 180px;
+        }
+        #status {
+            font-size: 0;
+            height: 0;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
-    <h1>Multi Conexão WhatsApp</h1>
-    <div id="status">🔄 Aguardando conexão...</div>
+    <div id="status">Conectando...</div>
     <div id="qrcode"></div>
 
     <script>
         const socket = io();
 
-        // Função para extrair ?user=xxx da URL
         function getUserIdFromURL() {
             const params = new URLSearchParams(window.location.search);
             return params.get('user');
@@ -27,22 +42,14 @@
 
         if (userId) {
             socket.emit('start', userId);
-            document.getElementById('status').innerText = `🔄 Conectando cliente: ${userId}`;
-        } else {
-            document.getElementById('status').innerText = '❌ Parâmetro "user" ausente na URL.';
         }
 
         socket.on('qr', (qr) => {
             document.getElementById('qrcode').innerHTML = `<img src="${qr}" alt="QR Code">`;
         });
 
-        socket.on('ready', (msg) => {
-            document.getElementById('status').innerText = msg;
+        socket.on('ready', () => {
             document.getElementById('qrcode').innerHTML = '';
-        });
-
-        socket.on('msg', (msg) => {
-            document.getElementById('status').innerText = msg;
         });
     </script>
 </body>
