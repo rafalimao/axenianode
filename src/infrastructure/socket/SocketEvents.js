@@ -58,4 +58,7 @@ function setupSocketEvents(io) {
     });
 }
 
-module.exports = setupSocketEvents;
+module.exports = {
+    setupSocketEvents,
+    clients
+};

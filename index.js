@@ -3,7 +3,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 
-const setupSocketEvents = require('./src/infrastructure/socket/SocketEvents');
+const { setupSocketEvents } = require('./src/infrastructure/socket/SocketEvents');
 const statusRoutes = require('./src/interfaces/http/routes/statusRoutes');
 const messageRoutes = require('./src/interfaces/http/routes/messageRoutes');
 
