@@ -17,8 +17,14 @@ function setupSocketEvents(io) {
 
             const client = new Client({
                 authStrategy: new LocalAuth({ clientId: userId }),
+                puppeteer: {
+                    headless: true, // necessário para ambientes sem GUI
+                    args: [
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                    ]
+                }
             });
-
             clients[userId] = client;
 
             client.on('qr', async (qr) => {
