@@ -10,10 +10,24 @@ const clients = {};
 function setupSocketEvents(io) {
     io.on('connection', (socket) => {
         socket.on('start', async (userId) => {
-            if (clients[userId]) {
-                socket.emit('msg', 'Já está conectando...');
+        if (clients[userId]) {
+            const state = await clients[userId].getState().catch(() => null);
+
+            if (state === 'CONNECTED' || state === 'READY' || state === 'OPENING') {
+                socket.emit('msg', 'Já está conectando ou conectado...');
+                console.log("Client ainda ativo com estado:", state);
                 return;
+            } else {
+                // O client está com erro ou desconectado, podemos remover e reiniciar
+                try {
+                    await clients[userId].destroy();
+                } catch (e) {
+                    console.warn("Erro ao destruir client antigo:", e.message);
+                }
+                delete clients[userId];
+                console.log("Client estava inválido, removido.");
             }
+        }
 
             const client = new Client({
                 authStrategy: new LocalAuth({ clientId: userId }),
