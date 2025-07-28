@@ -13,7 +13,7 @@ module.exports = async function (client, message, userId) {
             const audioFileName = `audio_${Date.now()}.ogg`;
             const filePath = path.join(__dirname, '../../../public/audios', audioFileName);
             fs.writeFileSync(filePath, media.data, 'base64');
-            audioUrl = `https://SEU_DOMINIO/audios/${audioFileName}`;
+            audioUrl = `http://localhost:3000/audios/${audioFileName}`;
         }
 
         const payload = {
