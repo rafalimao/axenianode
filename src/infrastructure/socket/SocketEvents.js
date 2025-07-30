@@ -10,6 +10,17 @@ const clients = {};
 function setupSocketEvents(io) {
     io.on('connection', (socket) => {
         socket.on('start', async (userId) => {
+
+        const sessionId = `session-${userId}`;
+        const sessionPath = path.join('.wwebjs_auth', sessionId);
+
+        function clearSessionIfNeeded() {
+            if (fs.existsSync(sessionPath)) {
+                console.log(`[INFO] Removendo sessão antiga: ${sessionPath}`);
+                fs.rmSync(sessionPath, { recursive: true, force: true });
+            }
+        }
+
         if (clients[userId]) {
             const state = await clients[userId].getState().catch(() => null);
 
@@ -28,7 +39,8 @@ function setupSocketEvents(io) {
                 console.log("Client estava inválido, removido.");
             }
         }
-
+            clearSessionIfNeeded();
+            console.log("limpando a sessao");
             const client = new Client({
                 authStrategy: new LocalAuth({ clientId: userId }),
                 puppeteer: {
@@ -42,6 +54,8 @@ function setupSocketEvents(io) {
             clients[userId] = client;
 
             client.on('qr', async (qr) => {
+                console.log("gerando QR");
+                socket.emit("Gerando QR");
                 const qrCodeData = await qrcode.toDataURL(qr);
                 socket.emit('qr', qrCodeData);
             });

@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
+require('dotenv').config();
 
 const { setupSocketEvents } = require('./src/infrastructure/socket/SocketEvents');
 const statusRoutes = require('./src/interfaces/http/routes/statusRoutes');

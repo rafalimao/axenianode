@@ -6,6 +6,7 @@ module.exports = async function (client, message, userId) {
     try {
         const contact = await message.getContact();
         const chat = await message.getChat();
+        const baseUrl = process.env.AUDIO_BASE_URL;
         let audioUrl = '';
 
         if ((message.type === 'audio' || message.type === 'ptt') && message.hasMedia) {
@@ -13,7 +14,7 @@ module.exports = async function (client, message, userId) {
             const audioFileName = `audio_${Date.now()}.ogg`;
             const filePath = path.join(__dirname, '../../../public/audios', audioFileName);
             fs.writeFileSync(filePath, media.data, 'base64');
-            audioUrl = `http://localhost:3000/audios/${audioFileName}`;
+            audioUrl = `${baseUrl}/${audioFileName}`;
         }
 
         const payload = {
