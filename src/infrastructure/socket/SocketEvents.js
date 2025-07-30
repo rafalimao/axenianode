@@ -39,8 +39,6 @@ function setupSocketEvents(io) {
                 console.log("Client estava inválido, removido.");
             }
         }
-            clearSessionIfNeeded();
-            console.log("limpando a sessao");
             const client = new Client({
                 authStrategy: new LocalAuth({ clientId: userId }),
                 puppeteer: {
