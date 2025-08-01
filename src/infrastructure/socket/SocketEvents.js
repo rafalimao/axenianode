@@ -89,12 +89,12 @@ function setupSocketEvents(io) {
                 delete clients[userId];
             });
 
-            client.on('message', async (message) => {
+            client.on("message", async (message) => {
                 await HandleIncomingMessage(client, message, userId);
             });
 
             client.initialize();
-        });
+        }
     });
 }
 
