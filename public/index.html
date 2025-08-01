@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>QR WhatsApp</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            background: #fff;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        #qrcode img {
+            width: 180px;
+            height: 180px;
+        }
+        #status {
+            font-size: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="status">Conectando...</div>
+    <div id="qrcode"></div>
+
+    <script>
+        const socket = io();
+
+        function getUserIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('user');
+        }
+
+        const userId = getUserIdFromURL();
+
+        if (userId) {
+            socket.emit('start', userId);
+        }
+
+        socket.on('qr', (qr) => {
+            document.getElementById('qrcode').innerHTML = `<img src="${qr}" alt="QR Code">`;
+        });
+
+        socket.on('ready', () => {
+            document.getElementById('qrcode').innerHTML = '';
+        });
+    </script>
+</body>
+</html>
