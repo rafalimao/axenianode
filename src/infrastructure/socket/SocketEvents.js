@@ -96,6 +96,7 @@ function setupSocketEvents(io) {
             client.initialize();
         }
     });
+});
 }
 
 module.exports = {
