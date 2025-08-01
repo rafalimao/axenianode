@@ -15,6 +15,7 @@ module.exports = async function (client, message, userId) {
             const filePath = path.join(__dirname, '../../../public/audios', audioFileName);
             fs.writeFileSync(filePath, media.data, 'base64');
             audioUrl = `${baseUrl}/${audioFileName}`;
+            console.log(baseUrl);
         }
 
         const payload = {
