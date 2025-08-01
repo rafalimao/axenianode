@@ -84,6 +84,8 @@ function setupSocketEvents(io) {
 
             // Evento QR
             client.on('qr', async (qr) => {
+                if (!socket.connected) return;
+                
                 // Sistema de debounce para evitar loops
                 if (this.lastQR && this.lastQR.qr === qr && 
                     Date.now() - this.lastQR.timestamp < 15000) {
