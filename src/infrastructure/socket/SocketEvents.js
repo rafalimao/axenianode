@@ -40,7 +40,6 @@ function setupSocketEvents(io) {
             const client = new Client({
                 authStrategy: new LocalAuth({ clientId: userId }),
                 puppeteer: {
-                    executablePath: '/opt/chromium/chromium1496088/chrome',
                     headless: true,
                     args: [
                         '--no-sandbox',
