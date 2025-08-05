@@ -5,7 +5,7 @@ const path = require('path');
 const PHPWebhookService = require('../services/PHPWebhookService');
 const HandleIncomingMessage = require('../../application/use-cases/HandleIncomingMessage');
 
-const clients = {};
+const clients = require('../whatsapp/clients');
 const clientStates = new Map();
 const activeQRCodes = new Map();
 
