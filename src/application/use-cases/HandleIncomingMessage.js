@@ -32,7 +32,15 @@ module.exports = async function (client, message, userId) {
             audio_url: audioUrl
         };
 
-        const response = await axios.post('https://axeniabot.com.br/webhooks/nodewebhook.php', payload);
+        const response = await axios.post(
+            'https://axeniabot.com.br/webhooks/nodewebhook.php',
+            payload
+        );
+
+        if (typeof response.data === 'string' && response.data.trim() === 'DONTRESPONSE') {
+            console.log(`🚫 Atendimento humanizado para ${message.from} (DONTRESPONSE)`);
+            return;
+        }
 
         if (response.data?.reply) {
             await message.reply(response.data.reply);
