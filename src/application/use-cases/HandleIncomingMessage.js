@@ -37,6 +37,7 @@ module.exports = async function (client, message, userId) {
             payload
         );
 
+        const resp = response.data;
         if (typeof resp === 'object' && resp.reply && resp.reply.trim().toUpperCase() === 'DONTRESPONSE') {
             console.log(`🚫 Mensagem ignorada para ${message.from} (DONTRESPONSE - objeto)`);
             return;
