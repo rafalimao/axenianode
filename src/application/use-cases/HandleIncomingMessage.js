@@ -37,11 +37,11 @@ module.exports = async function (client, message, userId) {
             payload
         );
 
-        if (typeof response.data === 'string' && response.data.trim() === 'DONTRESPONSE') {
-            console.log(`🚫 Atendimento humanizado para ${message.from} (DONTRESPONSE)`);
+        if (typeof resp === 'object' && resp.reply && resp.reply.trim().toUpperCase() === 'DONTRESPONSE') {
+            console.log(`🚫 Mensagem ignorada para ${message.from} (DONTRESPONSE - objeto)`);
             return;
         }
-
+        
         if (response.data?.reply) {
             await message.reply(response.data.reply);
         } else if (typeof response.data === 'string') {
