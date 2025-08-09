@@ -27,11 +27,11 @@ if [ -z "$NGROK_URL" ]; then
 
 # Reinicia sessões anteriores
         echo "Reiniciando sessões anteriores em https://axeniabot.com.br/cron/node_sessions.php"
-        curl -G --data-urlencode "url=$NGROK_URL" "https://axeniabot.com.br/cron/node_sessions.php"
+        curl -G --data-urlencode "verify=xangrile" "https://axeniabot.com.br/cron/node_sessions.php"
 
 # 6. Iniciar a aplicação Node.js
         echo "Iniciando a aplicação Node.js..."
         cd /root/axenianode
-        pm2 start index.js --name axenianode &
-
+        pm2 start index.js --name axenianode --watch --ignore-watch="node_modules" --no-daemon
+        pm2 logs axenianode
         echo "Configuração concluída! O domínio público é: $NGROK_URL"
